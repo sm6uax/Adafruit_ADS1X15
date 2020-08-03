@@ -109,12 +109,14 @@ static uint16_t readRegister(uint8_t i2cAddress, uint8_t reg) {
     @param i2cAddress I2C address of device
 */
 /**************************************************************************/
-Adafruit_ADS1015::Adafruit_ADS1015(uint8_t i2cAddress) {
-  m_i2cAddress = i2cAddress;
-  m_conversionDelay = ADS1015_CONVERSIONDELAY;
-  m_bitShift = 4;
-  m_gain = GAIN_TWOTHIRDS; /* +/- 6.144V range (limited to VDD +0.3V max!) */
-}
+
+//Adafruit_ADS1015::Adafruit_ADS1015(TwoWire* wire,uint8_t i2cAddress) {
+//  m_wire = *wire;
+//  m_i2cAddress = i2cAddress;
+//  m_conversionDelay = ADS1015_CONVERSIONDELAY;
+//  m_bitShift = 4;
+//  m_gain = GAIN_TWOTHIRDS; /* +/- 6.144V range (limited to VDD +0.3V max!) */
+//}
 
 /**************************************************************************/
 /*!
@@ -123,19 +125,20 @@ Adafruit_ADS1015::Adafruit_ADS1015(uint8_t i2cAddress) {
     @param i2cAddress I2C address of device
 */
 /**************************************************************************/
-Adafruit_ADS1115::Adafruit_ADS1115(uint8_t i2cAddress) {
-  m_i2cAddress = i2cAddress;
-  m_conversionDelay = ADS1115_CONVERSIONDELAY;
-  m_bitShift = 0;
-  m_gain = GAIN_TWOTHIRDS; /* +/- 6.144V range (limited to VDD +0.3V max!) */
-}
+//Adafruit_ADS1115::Adafruit_ADS1115(TwoWire* wire,uint8_t i2cAddress) {
+//  m_wire = *wire;
+//  m_i2cAddress = i2cAddress;
+//  m_conversionDelay = ADS1115_CONVERSIONDELAY;
+//  m_bitShift = 0;
+//  m_gain = GAIN_TWOTHIRDS; /* +/- 6.144V range (limited to VDD +0.3V max!) */
+//}
 
 /**************************************************************************/
 /*!
     @brief  Sets up the HW (reads coefficients values, etc.)
 */
 /**************************************************************************/
-void Adafruit_ADS1015::begin() { Wire.begin(); }
+void Adafruit_ADS1015::begin() { m_wire.begin(); }
 
 /**************************************************************************/
 /*!

@@ -147,9 +147,19 @@ protected:
   uint8_t m_conversionDelay; ///< conversion deay
   uint8_t m_bitShift;        ///< bit shift amount
   adsGain_t m_gain;          ///< ADC gain
+  TwoWire& m_wire;
 
 public:
-  Adafruit_ADS1015(uint8_t i2cAddress = ADS1015_ADDRESS);
+
+  Adafruit_ADS1015(TwoWire& wire = Wire,uint8_t i2cAddress = ADS1015_ADDRESS) :
+    m_i2cAddress(i2cAddress),
+    m_wire(wire),
+    m_conversionDelay(ADS1015_CONVERSIONDELAY),
+    m_bitShift(4),
+    m_gain(GAIN_TWOTHIRDS)
+    {
+
+    }
   void begin(void);
   uint16_t readADC_SingleEnded(uint8_t channel);
   int16_t readADC_Differential_0_1(void);
@@ -160,6 +170,8 @@ public:
   adsGain_t getGain(void);
 
 private:
+
+
 };
 
 /**************************************************************************/
@@ -167,11 +179,28 @@ private:
     @brief  Sensor driver for the Adafruit ADS1115 ADC breakout.
 */
 /**************************************************************************/
-class Adafruit_ADS1115 : public Adafruit_ADS1015 {
+class Adafruit_ADS1115 : public  Adafruit_ADS1015 {
+protected:
+  // Instance-specific properties
+  uint8_t m_i2cAddress;      ///< the I2C address
+  uint8_t m_conversionDelay; ///< conversion deay
+  uint8_t m_bitShift;        ///< bit shift amount
+  adsGain_t m_gain;          ///< ADC gain
+  TwoWire& m_wire;
 public:
-  Adafruit_ADS1115(uint8_t i2cAddress = ADS1015_ADDRESS);
 
+  Adafruit_ADS1115(TwoWire& wire = Wire,uint8_t i2cAddress = ADS1015_ADDRESS) :
+    m_i2cAddress(i2cAddress),
+    m_wire(wire),
+    m_conversionDelay(ADS1115_CONVERSIONDELAY),
+    m_bitShift(0),
+    m_gain(GAIN_TWOTHIRDS)
+    {
+
+    }
+    
 private:
+
 };
 
 #endif
