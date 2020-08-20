@@ -44,11 +44,11 @@
     @return the byte read
 */
 /**************************************************************************/
-static uint8_t i2cread(void) {
+uint8_t Adafruit_ADS1015::i2cread(void) {
 #if ARDUINO >= 100
-  return Wire.read();
+  return mWire.read();
 #else
-  return Wire.receive();
+  return mWire.receive();
 #endif
 }
 
@@ -59,11 +59,11 @@ static uint8_t i2cread(void) {
     @param x byte to write
 */
 /**************************************************************************/
-static void i2cwrite(uint8_t x) {
+void Adafruit_ADS1015::i2cwrite(uint8_t x) {
 #if ARDUINO >= 100
-  Wire.write((uint8_t)x);
+  mWire.write((uint8_t)x);
 #else
-  Wire.send(x);
+  mWire.send(x);
 #endif
 }
 
@@ -76,12 +76,12 @@ static void i2cwrite(uint8_t x) {
     @param value value to write to register
 */
 /**************************************************************************/
-static void writeRegister(uint8_t i2cAddress, uint8_t reg, uint16_t value) {
-  Wire.beginTransmission(i2cAddress);
+void Adafruit_ADS1015::writeRegister(uint8_t i2cAddress, uint8_t reg, uint16_t value) {
+  mWire.beginTransmission(i2cAddress);
   i2cwrite((uint8_t)reg);
   i2cwrite((uint8_t)(value >> 8));
   i2cwrite((uint8_t)(value & 0xFF));
-  Wire.endTransmission();
+  mWire.endTransmission();
 }
 
 /**************************************************************************/
@@ -94,11 +94,11 @@ static void writeRegister(uint8_t i2cAddress, uint8_t reg, uint16_t value) {
     @return 16 bit register value read
 */
 /**************************************************************************/
-static uint16_t readRegister(uint8_t i2cAddress, uint8_t reg) {
-  Wire.beginTransmission(i2cAddress);
+uint16_t Adafruit_ADS1015::readRegister(uint8_t i2cAddress, uint8_t reg) {
+  mWire.beginTransmission(i2cAddress);
   i2cwrite(reg);
-  Wire.endTransmission();
-  Wire.requestFrom(i2cAddress, (uint8_t)2);
+  mWire.endTransmission();
+  mWire.requestFrom(i2cAddress, (uint8_t)2);
   return ((i2cread() << 8) | i2cread());
 }
 
@@ -138,7 +138,7 @@ static uint16_t readRegister(uint8_t i2cAddress, uint8_t reg) {
     @brief  Sets up the HW (reads coefficients values, etc.)
 */
 /**************************************************************************/
-void Adafruit_ADS1015::begin() { m_wire.begin(); }
+void Adafruit_ADS1015::begin() { }
 
 /**************************************************************************/
 /*!
@@ -337,7 +337,7 @@ void Adafruit_ADS1015::startComparator_SingleEnded(uint8_t channel,
       ADS1015_REG_CONFIG_CLAT_LATCH |   // Latching mode
       ADS1015_REG_CONFIG_CPOL_ACTVLOW | // Alert/Rdy active low   (default val)
       ADS1015_REG_CONFIG_CMODE_TRAD |   // Traditional comparator (default val)
-      ADS1015_REG_CONFIG_DR_1600SPS |   // 1600 samples per second (default)
+      ADS1015_REG_CONFIG_DR_MASK |   // 1600 samples per second (default)
       ADS1015_REG_CONFIG_MODE_CONTIN |  // Continuous conversion mode
       ADS1015_REG_CONFIG_MODE_CONTIN;   // Continuous conversion mode
 

@@ -147,13 +147,13 @@ protected:
   uint8_t m_conversionDelay; ///< conversion deay
   uint8_t m_bitShift;        ///< bit shift amount
   adsGain_t m_gain;          ///< ADC gain
-  TwoWire& m_wire;
+  TwoWire& mWire;
 
 public:
 
-  Adafruit_ADS1015(TwoWire& wire = Wire,uint8_t i2cAddress = ADS1015_ADDRESS) :
+  Adafruit_ADS1015(TwoWire& wire=Wire1,uint8_t i2cAddress = ADS1015_ADDRESS) :
     m_i2cAddress(i2cAddress),
-    m_wire(wire),
+    mWire(wire),
     m_conversionDelay(ADS1015_CONVERSIONDELAY),
     m_bitShift(4),
     m_gain(GAIN_TWOTHIRDS)
@@ -170,7 +170,10 @@ public:
   adsGain_t getGain(void);
 
 private:
-
+  uint8_t i2cread(void);
+  void i2cwrite(uint8_t x);
+  void writeRegister(uint8_t i2cAddress, uint8_t reg, uint16_t value);
+  uint16_t readRegister(uint8_t i2cAddress, uint8_t reg);
 
 };
 
@@ -186,12 +189,12 @@ protected:
   uint8_t m_conversionDelay; ///< conversion deay
   uint8_t m_bitShift;        ///< bit shift amount
   adsGain_t m_gain;          ///< ADC gain
-  TwoWire& m_wire;
+  TwoWire& mWire;
 public:
 
-  Adafruit_ADS1115(TwoWire& wire = Wire,uint8_t i2cAddress = ADS1015_ADDRESS) :
+  Adafruit_ADS1115(TwoWire& wire=Wire1,uint8_t i2cAddress = ADS1015_ADDRESS) :
     m_i2cAddress(i2cAddress),
-    m_wire(wire),
+    mWire(wire),
     m_conversionDelay(ADS1115_CONVERSIONDELAY),
     m_bitShift(0),
     m_gain(GAIN_TWOTHIRDS)
